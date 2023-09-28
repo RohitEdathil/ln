@@ -1,0 +1,35 @@
+// A sample program in ln
+
+var x = 10;
+
+var y = 2 + x;
+
+if (y > 10) {
+    print "AA";
+} else {
+    print "BB";
+}
+
+class X {
+    x = 10;
+    y = 2 + x;
+
+    do() {
+        if (y > 10) {
+            print "AA";
+        } else {
+            print "BB";
+        }
+    }
+}
+
+fun main() {
+    var x = X();
+    x.do();
+}
+
+
+$
+"
+
+var x = 10;
