@@ -1,4 +1,5 @@
-﻿
+﻿using System.Text.Json;
+
 class Ln
 {
     static ErrorHandler errorHandler = new();
@@ -57,9 +58,15 @@ class Ln
         Scanner scanner = new(code, errorHandler);
         List<Token> tokens = scanner.ScanTokens();
 
+        Parser parser = new(tokens, errorHandler);
+        Expression? expression = parser.Parse();
+
         foreach (var token in tokens)
         {
             Console.WriteLine(token);
         }
+
+        Console.WriteLine(expression?.Accept(new AstPrinter()));
+
     }
 }
