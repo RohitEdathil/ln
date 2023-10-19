@@ -128,9 +128,9 @@ class Parser
 
         while (!IsAtEnd)
         {
-            if (PreviousToken.type == TokenType.SEMICOLON) return;
+            if (PreviousToken.Type == TokenType.SEMICOLON) return;
 
-            switch (CurrentToken.type)
+            switch (CurrentToken.Type)
             {
                 case TokenType.CLASS:
                 case TokenType.FUN:
@@ -156,7 +156,7 @@ class Parser
     // Helpers
     Token CurrentToken => Tokens[Current];
     Token PreviousToken => Tokens[Current - 1];
-    bool IsAtEnd => CurrentToken.type == TokenType.EOF;
+    bool IsAtEnd => CurrentToken.Type == TokenType.EOF;
     Token Consume()
     {
         if (!IsAtEnd) Current++;
@@ -165,7 +165,7 @@ class Parser
     bool Check(TokenType type)
     {
         if (IsAtEnd) return false;
-        return CurrentToken.type == type;
+        return CurrentToken.Type == type;
     }
 
     bool MatchAny(params TokenType[] types)

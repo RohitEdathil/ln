@@ -1,20 +1,20 @@
 
 class Token
 {
-    public readonly TokenType type;
+    public readonly TokenType Type;
     public readonly object? Literal;
     public readonly int Line;
 
     public Token(TokenType type, object? literal, int line)
     {
-        this.type = type;
+        this.Type = type;
         this.Literal = literal;
         this.Line = line;
     }
 
     public override string ToString()
     {
-        return type + " " + Literal;
+        return Type + " " + Literal;
     }
 }
 

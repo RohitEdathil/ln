@@ -58,15 +58,19 @@ class Ln
         Scanner scanner = new(code, errorHandler);
         List<Token> tokens = scanner.ScanTokens();
 
-        Parser parser = new(tokens, errorHandler);
-        Expression? expression = parser.Parse();
 
-        foreach (var token in tokens)
+        foreach (Token token in tokens)
         {
             Console.WriteLine(token);
         }
 
-        Console.WriteLine(expression?.Accept(new AstPrinter()));
+        Parser parser = new(tokens, errorHandler);
+        Expression? expression = parser.Parse();
+
+        Interpreter interpreter = new(errorHandler);
+        object? result = interpreter.Interpret(expression);
+
+        Console.WriteLine(result);
 
     }
 }
