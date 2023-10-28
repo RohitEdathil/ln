@@ -9,11 +9,11 @@ class Scanner
     char CurrentChar => code[currentPos];
     char NextChar => IsAtEnd() ? '\0' : code[currentPos + 1];
 
-    List<Token> tokens = new();
+    readonly List<Token> tokens = new();
 
     public Scanner(string code, ErrorHandler errorHandler)
     {
-        this.code = code;
+        this.code = code + '\0';
         this.errorHandler = errorHandler;
     }
 
@@ -24,7 +24,7 @@ class Scanner
 
     bool IsAtEnd()
     {
-        return currentPos >= code.Length;
+        return currentPos >= code.Length - 1;
     }
 
     void Advance(int steps = 1)
@@ -55,11 +55,6 @@ class Scanner
         while (!IsAtEnd() && !condition(CurrentChar))
         {
             Advance();
-        }
-
-        if (IsAtEnd())
-        {
-            return -1;
         }
 
         return currentPos - start;
@@ -141,7 +136,7 @@ class Scanner
             Advance();
             int start = currentPos;
             int length = SkipUntil(c => c == '"');
-            if (length == -1)
+            if (IsAtEnd())
             {
                 errorHandler.Error(line, "Unterminated string");
                 return;
@@ -156,13 +151,19 @@ class Scanner
         if (char.IsDigit(CurrentChar))
         {
             int start = currentPos;
-            int length = SkipUntil(c => !char.IsDigit(c) && c != '.');
+            int length = SkipUntil(c => !char.IsDigit(c));
             if (length == -1)
             {
-                length = code.Length - start;
+                length = code.Length - start - 1;
+            }
+            if (CurrentChar == '.')
+            {
+                length += 1;
+                Advance();
+                length += SkipUntil(c => !char.IsDigit(c));
             }
             string literal = code.Substring(start, length);
-            AddToken(TokenType.NUMBER, literal: literal);
+            AddToken(TokenType.NUMBER, literal: double.Parse(literal));
             return;
         }
 
